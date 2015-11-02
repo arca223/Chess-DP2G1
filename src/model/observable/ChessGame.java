@@ -45,7 +45,7 @@ public class ChessGame implements Observable{
 	
 
 	public Couleur getColorCurrentPlayer(){
-		return this.echiquier.getColorCurrentPlayer()
+		return this.echiquier.getColorCurrentPlayer();
 	}	
 
 
