@@ -8,6 +8,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import model.Couleur;
 import model.Echiquier;
+import model.Jeu;
 import model.PieceIHM;
 
 public class ChessGame implements Observable{
@@ -51,11 +52,13 @@ public class ChessGame implements Observable{
 		return this.echiquier.getColorCurrentPlayer();
 	}	
 	
+	
+	
 	public List<PieceIHM> getPiecesIHM(){
 		return this.echiquier.getPiecesIHM();
 	} 
 
-
+	
 	@Override
 	public void addListener(InvalidationListener listener) {
 		// TODO Auto-generated method stub
