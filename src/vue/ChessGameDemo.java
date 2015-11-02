@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import controler.controlerLocal.*;
+import model.Coord;
+import model.observable.*;
 
 public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionListener {
 	
@@ -14,9 +16,12 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 	JLabel chessPiece;
 	int xAdjustment;
 	int yAdjustment;
+	int xMemo;
+	int yMemo;
 
-	public ChessGameDemo() {
+	public ChessGameDemo(ChessGameControler chessGameControler) {
 		Dimension boardSize = new Dimension(600, 600);
+		this.chessGameCtlr = chessGameControler;
 
 		// Use a Layered Pane for this this application
 		layeredPane = new JLayeredPane();
@@ -75,6 +80,9 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 		chessPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
 		chessPiece.setSize(chessPiece.getWidth(), chessPiece.getHeight());
 		layeredPane.add(chessPiece, JLayeredPane.DRAG_LAYER);
+		
+		this.xMemo = xAdjustment;
+		this.yMemo = yAdjustment;
 	}
 
 	// Move the chess piece around
@@ -88,22 +96,30 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 	// Drop the chess piece back onto the chess board
 
 	public void mouseReleased(MouseEvent e) {
-		if (chessPiece == null)
+		Coord initCoord = new Coord(xMemo, yMemo);
+		System.out.println(xMemo + yMemo);
+		Coord finalCoord = new Coord(e.getX() + xAdjustment, e.getY() + yAdjustment);
+		System.out.println(initCoord.toString() + "---------" + finalCoord.toString());
+		System.out.println("test");
+		if (this.chessGameCtlr.move(initCoord, finalCoord)) {
+			if (chessPiece == null)
 			return;
-
-		chessPiece.setVisible(false);
-		Component c = chessBoard.findComponentAt(e.getX(), e.getY());
-
-		if (c instanceof JLabel) {
-			Container parent = c.getParent();
-			parent.remove(0);
-			parent.add(chessPiece);
-		} else {
-			Container parent = (Container) c;
-			parent.add(chessPiece);
+			System.out.println("test");
+			chessPiece.setVisible(false);
+			Component c = chessBoard.findComponentAt(e.getX(), e.getY());
+	
+			if (c instanceof JLabel) {
+				Container parent = c.getParent();
+				parent.remove(0);
+				parent.add(chessPiece);
+			} else {
+				Container parent = (Container) c;
+				parent.add(chessPiece);
+			}
+	
+			chessPiece.setVisible(true);	
 		}
-
-		chessPiece.setVisible(true);
+		System.out.println(this.chessGameCtlr.getMessage());
 		
 	}
 
@@ -123,7 +139,7 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 	}
 
 	public static void main(String[] args) {
-		JFrame frame = new ChessGameDemo();
+		JFrame frame = new ChessGameDemo(new ChessGameControler(new ChessGame()));
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		frame.pack();
 		frame.setResizable(true);
