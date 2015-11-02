@@ -1,5 +1,8 @@
 package vue;
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;

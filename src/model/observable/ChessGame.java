@@ -19,25 +19,34 @@ public class ChessGame implements Observable{
 		String retour = "";
 		retour += echiquier.toString();
 		retour += "\n";
-		retour += "Déplacement de " + /*position initiale +*/ " vers " + /*position finale +*/ " : " + /*position statut +*/ " : déplacement simple";
+		retour += "Dï¿½placement de " + /*position initiale +*/ " vers " + /*position finale +*/ " : " + /*position statut +*/ " : dï¿½placement simple";
 		return retour;
 	}
 	
-	public boolean move (int xInit, int yInit, int xFinal, int yFinal){
-		
+	public boolean move(int xInit, int yInit, int xFinal, int yFinal){
+		if (this.echiquier.isMoveOk(xInit, yInit, xFinal, yFinal)) {
+			boolean ret = this.echiquier.move(xInit, yInit, xFinal, yFinal);
+			if (ret) {
+				this.echiquier.switchJoueur();
+			}			
+			return ret;
+		} else {
+			return false;
+		}
 	}
 	
 	public boolean isEnd(){
-		this.echiquier.isEnd();
+		return this.echiquier.isEnd();
 	}
 	
 	public String getMessage(){
 		return this.echiquier.getMessage();
 	}
 	
+
 	public Couleur getColorCurrentPlayer(){
-		return ColorCurrentPlayer;
-	}
+		return this.echiquier.getColorCurrentPlayer();
+	}	
 
 
 	@Override
