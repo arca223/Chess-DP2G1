@@ -10,8 +10,8 @@ import model.Couleur;
  * Inspiration Jacques SARAYDARYAN, Adrien GUENARD
  * 
  * Cette classe s'appuie sur ChessPieceImage
- * pour fournir les noms des images des piÃ¨ces
- * qui sont utilisÃ©es dans l'IHM 
+ * pour fournir les noms des images des pièces
+ * qui sont utilisées dans l'IHM 
  *  
  */
 public class ChessImageProvider {
@@ -35,7 +35,7 @@ public class ChessImageProvider {
 	/**
 	 * @param pieceType
 	 * @param pieceCouleur
-	 * @return nom fichier contenant image de la piï¿½ce
+	 * @return nom fichier contenant image de la pièce
 	 */
 	public static String getImageFile(String pieceType, Couleur pieceCouleur){
 		String ret, key, value;
@@ -43,8 +43,8 @@ public class ChessImageProvider {
 		key = pieceType + pieceCouleur.name();
 		value = mapImage.get(key);
 		File g=new File("");
-		ret = g.getAbsolutePath()+"\\images\\" + value;
-		return ret;		
+		ret = g.getAbsolutePath()+"\\src\\img\\" + value;
+		return ret;	
 	}
 
 	/**
