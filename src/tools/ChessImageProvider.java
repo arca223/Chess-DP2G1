@@ -44,7 +44,7 @@ public class ChessImageProvider {
 		value = mapImage.get(key);
 		File g=new File("");
 		ret = g.getAbsolutePath()+"\\src\\img\\" + value;
-		return ret;	
+		return ret;
 	}
 
 	/**
