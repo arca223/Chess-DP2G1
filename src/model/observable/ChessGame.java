@@ -28,11 +28,11 @@ public class ChessGame implements Observable{
 	}
 	
 	public boolean isEnd(){
-		
+		this.echiquier.isEnd();
 	}
 	
 	public String getMessage(){
-		
+		return this.echiquier.getMessage();
 	}
 	
 	public Couleur getColorCurrentPlayer(){
