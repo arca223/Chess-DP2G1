@@ -1,14 +1,14 @@
 package vue;
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import controler.controlerLocal.*;
 
 public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionListener {
+	
+	ChessGameControler chessGameCtlr;
 	JLayeredPane layeredPane;
 	JPanel chessBoard;
 	JLabel chessPiece;
@@ -104,6 +104,7 @@ public class ChessGameDemo extends JFrame implements MouseListener, MouseMotionL
 		}
 
 		chessPiece.setVisible(true);
+		
 	}
 
 	public void mouseClicked(MouseEvent e) {

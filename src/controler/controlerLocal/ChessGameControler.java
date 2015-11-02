@@ -1,5 +1,8 @@
 package controler.controlerLocal;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import model.*;
 import model.observable.*;
 
@@ -8,8 +11,8 @@ public class ChessGameControler implements ChessGameControlers{
 
 	private ChessGame chessGame;
 
-	public ChessGameControler() {
-		this.chessGame = new ChessGame();
+	public ChessGameControler(ChessGame chessGame) {
+		this.chessGame = chessGame;
 	}
 
 	@Override
@@ -32,5 +35,9 @@ public class ChessGameControler implements ChessGameControlers{
 	public Couleur getColorCurrentPlayer() {
 		return this.chessGame.getColorCurrentPlayer();
 	}
+	
+	public List<PieceIHM> getPiecesIHM(){
+		return this.chessGame.getPiecesIHM();
+	} 
 
 }

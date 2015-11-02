@@ -1,11 +1,14 @@
 package model.observable;
 
+import java.util.List;
+
 import com.sun.prism.paint.Color;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import model.Couleur;
 import model.Echiquier;
+import model.PieceIHM;
 
 public class ChessGame implements Observable{
 	
@@ -47,6 +50,10 @@ public class ChessGame implements Observable{
 	public Couleur getColorCurrentPlayer(){
 		return this.echiquier.getColorCurrentPlayer();
 	}	
+	
+	public List<PieceIHM> getPiecesIHM(){
+		return this.echiquier.getPiecesIHM();
+	} 
 
 
 	@Override
