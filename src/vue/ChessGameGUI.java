@@ -21,8 +21,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import controler.controlerLocal.ChessGameControler;
+import model.observable.ChessGame;
 import model.Coord;
-import model.Couleur;
 import model.PieceIHM;
 import tools.ChessImageProvider;
 import tools.ChessPieceImage;
@@ -37,7 +37,6 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 	int yAdjustment;
 	int xMemo;
 	int yMemo;
-	Couleur jeuCourant;
 
 	public ChessGameGUI(ChessGameControler cgc) {
 		
@@ -76,21 +75,37 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 			for (Coord c : list) {
 				JLabel piece = new JLabel(
 						new ImageIcon(ChessImageProvider.getImageFile(p.getTypePiece(), p.getCouleur())));
-				int pos = 63 - (8 * c.y + c.x);
+				int pos = (8 * (7-c.y) + c.x);
 				panel = (JPanel) chessBoard.getComponent(pos);
 				panel.add(piece);
 			}
 
 		}
-		
-		this.jeuCourant = Couleur.BLANC;
 
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-
+	public void update(Observable o, Object arg) {
+		ChessGame chess = (ChessGame) o;
+		
+	
+		JPanel panel = new JPanel();
+		for (int i = 0; i<64; i++){
+            panel = (JPanel) chessBoard.getComponent(i);
+            panel.removeAll();
+        }
+		this.revalidate();
+		for (PieceIHM p : chess.getPiecesIHM()) {
+			List<Coord> list = p.getList();
+			for (Coord c : list) {
+				JLabel piece = new JLabel(
+						new ImageIcon(ChessImageProvider.getImageFile(p.getTypePiece(), p.getCouleur())));
+				int pos = (8 * (7-c.y) + c.x);
+				panel = (JPanel) chessBoard.getComponent(pos);
+				panel.add(piece);
+			}
+		}
+		System.out.println("revalidate:!!");
 	}
 
 	@Override
@@ -149,32 +164,33 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		Coord initCoord = new Coord(xMemo, yMemo);
-		System.out.println(xMemo + yMemo);
-		Coord finalCoord = new Coord((e.getX() + xAdjustment)/75, (e.getY() + yAdjustment)/75);
+		Coord initCoord = new Coord(xMemo, 7-yMemo);
+		Coord finalCoord = new Coord(e.getX()/75, 7-(e.getY()/75));
 		System.out.println(initCoord.toString() + "---------" + finalCoord.toString());
-		System.out.println("test");
-		if (this.cgc.move(initCoord, finalCoord)) {
-			if (chessPiece == null)
+		
+		if (chessPiece == null)
 			return;
-			System.out.println("test");
-			chessPiece.setVisible(false);
-			Component c = chessBoard.findComponentAt(e.getX(), e.getY());
-	
-			if (c instanceof JLabel) {
-				Container parent = c.getParent();
-				parent.remove(0);
-				parent.add(chessPiece);
-			} else {
-				Container parent = (Container) c;
-				parent.add(chessPiece);
-			}
-	
-			chessPiece.setVisible(true);	
-		}
+		
+		chessPiece.setVisible(false);
+		this.cgc.move(initCoord, finalCoord);
+//		Component c = chessBoard.findComponentAt(e.getX(), e.getY());
+//
+//		if (c instanceof JLabel) {
+//			Container parent = c.getParent();
+//			parent.remove(0);
+//			parent.add(chessPiece);
+//		} else {
+//			Container parent = (Container) c;
+//			parent.add(chessPiece);
+//		}
+		
+		
+
+			
+		
 		System.out.println(this.cgc.getMessage());
 
 	}
-
+	
 
 }

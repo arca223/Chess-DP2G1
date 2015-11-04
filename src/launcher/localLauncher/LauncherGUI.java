@@ -14,10 +14,12 @@ public class LauncherGUI {
 		ChessGame chessGame;
 		ChessGameControler chessGameControler;		
 		
-		chessGame = new ChessGame();	
+		chessGame = new ChessGame();
 		chessGameControler = new ChessGameControler(chessGame);
 		
-		JFrame frame = new ChessGameGUI(chessGameControler);	
+		ChessGameGUI gui = new ChessGameGUI(chessGameControler);
+		chessGame.addObserver(gui);
+		JFrame frame = gui;
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.pack();
 		frame.setResizable(true);

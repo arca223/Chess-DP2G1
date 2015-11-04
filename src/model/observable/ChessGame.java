@@ -5,15 +5,16 @@ import java.util.List;
 import com.sun.prism.paint.Color;
 
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
+import java.util.Observable;
 import model.Couleur;
 import model.Echiquier;
 import model.Jeu;
 import model.PieceIHM;
 
-public class ChessGame implements Observable{
+public class ChessGame extends Observable{
 	
-	public Echiquier echiquier; 
+	private Echiquier echiquier;
+	
 	
 	public ChessGame(){
 		echiquier = new Echiquier();
@@ -28,15 +29,19 @@ public class ChessGame implements Observable{
 	}
 	
 	public boolean move(int xInit, int yInit, int xFinal, int yFinal){
+		boolean ret = false;;
 		if (this.echiquier.isMoveOk(xInit, yInit, xFinal, yFinal)) {
-			boolean ret = this.echiquier.move(xInit, yInit, xFinal, yFinal);
+			ret = this.echiquier.move(xInit, yInit, xFinal, yFinal);
 			if (ret) {
 				this.echiquier.switchJoueur();
 			}			
-			return ret;
 		} else {
-			return false;
+			ret =  false;
 		}
+		this.setChanged();
+		this.notifyObservers();
+		this.clearChanged();
+		return ret;
 	}
 	
 	public boolean isEnd(){
@@ -58,17 +63,6 @@ public class ChessGame implements Observable{
 		return this.echiquier.getPiecesIHM();
 	} 
 
-	
-	@Override
-	public void addListener(InvalidationListener listener) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void removeListener(InvalidationListener listener) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
