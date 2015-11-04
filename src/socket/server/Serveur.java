@@ -11,13 +11,13 @@ public class Serveur {
 
 		try {
 			ss = new ServerSocket(2009);
-			System.out.println("Le serveur est ‡ l'Ècoute du port "+ss.getLocalPort());
+			System.out.println("Le serveur est √† l'√©coute "+ss.getLocalPort());
 
 			t = new Thread(new Accepter_connexion(ss));
 			t.start();
 
 		} catch (IOException e) {
-			System.err.println("Le port "+ss.getLocalPort()+" est dÈj‡ utilisÈ !");
+			System.err.println("Le port "+ss.getLocalPort()+" est d√©j√† utilis√© !");
 		}
 
 	}

@@ -19,7 +19,7 @@ public class Accepter_connexion implements Runnable{
 			while(true){
 
 				socket = socketserver.accept();
-				System.out.println("Un zéro veut se connecter  ");
+				System.out.println("Un zÃ©ro veut se connecter  ");
 
 
 				String login = null;

@@ -9,7 +9,7 @@ import vue.ChessGameGUI;
 import socket.server.*;
 import socket.client.*;
 
-public class LauncherGUI {
+public class LauncherGUIClient {
 	
 	public static void main(String[] args) {		
 		
@@ -17,8 +17,8 @@ public class LauncherGUI {
 		ChessGameMultiControler chessGameControler;		
 		
 		chessGame = new ChessGame();
-		Serveur srv = new Serveur();
-		chessGameControler = new ChessGameMultiControler(chessGame, srv);
+		Client cli = new Client();
+		chessGameControler = new ChessGameMultiControler(chessGame, cli);
 		
 		ChessGameGUI gui = new ChessGameGUI();
 		chessGame.addObserver(gui);
