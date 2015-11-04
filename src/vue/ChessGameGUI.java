@@ -75,7 +75,7 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 			for (Coord c : list) {
 				JLabel piece = new JLabel(
 						new ImageIcon(ChessImageProvider.getImageFile(p.getTypePiece(), p.getCouleur())));
-				int pos = (8 * (7-c.y) + c.x);
+				int pos = (8 * (c.y) + c.x);
 				panel = (JPanel) chessBoard.getComponent(pos);
 				panel.add(piece);
 			}
@@ -100,7 +100,7 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 			for (Coord c : list) {
 				JLabel piece = new JLabel(
 						new ImageIcon(ChessImageProvider.getImageFile(p.getTypePiece(), p.getCouleur())));
-				int pos = (8 * (7-c.y) + c.x);
+				int pos = (8 * (c.y) + c.x);
 				panel = (JPanel) chessBoard.getComponent(pos);
 				panel.add(piece);
 			}
@@ -164,8 +164,8 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		Coord initCoord = new Coord(xMemo, 7-yMemo);
-		Coord finalCoord = new Coord(e.getX()/75, 7-(e.getY()/75));
+		Coord initCoord = new Coord(xMemo, yMemo);
+		Coord finalCoord = new Coord(e.getX()/75, (e.getY()/75));
 		System.out.println(initCoord.toString() + "---------" + finalCoord.toString());
 		
 		if (chessPiece == null)
