@@ -14,8 +14,8 @@ public class ChessGameMultiControler implements ChessGameControlers, Runnable{
 
 	private ChessGame chessGame;
 	private Serveur server = null;
-	private List<Client> listClient = null;
-
+	private Client client = null;
+	
 	public ChessGameMultiControler(ChessGame chessGame, Serveur srv) {
 		this.chessGame = chessGame;
 		this.server = srv;
@@ -23,7 +23,7 @@ public class ChessGameMultiControler implements ChessGameControlers, Runnable{
 	
 	public ChessGameMultiControler(ChessGame chessGame, Client c) {
 		this.chessGame = chessGame;
-		this.listClient.add(c);
+		this.client = c;
 	}
 	
 	public ChessGameMultiControler(ChessGame chessGame) {

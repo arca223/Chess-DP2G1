@@ -9,7 +9,7 @@ import vue.ChessGameGUI;
 import socket.server.*;
 import socket.client.*;
 
-public class LauncherGUI {
+public class LauncherGUIServer {
 	
 	public static void main(String[] args) {		
 		

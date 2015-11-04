@@ -7,7 +7,7 @@ public class Serveur {
 	public static Thread t;
 
 
-	public static void main(String[] args) {
+	public Serveur() {
 
 		try {
 			ss = new ServerSocket(2009);
