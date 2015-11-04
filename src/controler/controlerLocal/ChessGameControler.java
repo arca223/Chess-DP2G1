@@ -36,8 +36,5 @@ public class ChessGameControler implements ChessGameControlers{
 		return this.chessGame.getColorCurrentPlayer();
 	}
 	
-	public List<PieceIHM> getPiecesIHM(){
-		return this.chessGame.getPiecesIHM();
-	} 
 
 }

@@ -69,33 +69,32 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 				square.setBackground(i % 2 == 0 ? Color.white : Color.blue);
 		}
 
-		JPanel panel = new JPanel();
-		for (PieceIHM p : this.cgc.getPiecesIHM()) {
-			List<Coord> list = p.getList();
-			for (Coord c : list) {
-				JLabel piece = new JLabel(
-						new ImageIcon(ChessImageProvider.getImageFile(p.getTypePiece(), p.getCouleur())));
-				int pos = (8 * (c.y) + c.x);
-				panel = (JPanel) chessBoard.getComponent(pos);
-				panel.add(piece);
-			}
-
-		}
+//		JPanel panel = new JPanel();
+//		for (PieceIHM p : this.cgc.getPiecesIHM()) {
+//			List<Coord> list = p.getList();
+//			for (Coord c : list) {
+//				JLabel piece = new JLabel(
+//						new ImageIcon(ChessImageProvider.getImageFile(p.getTypePiece(), p.getCouleur())));
+//				int pos = (8 * (c.y) + c.x);
+//				panel = (JPanel) chessBoard.getComponent(pos);
+//				panel.add(piece);
+//			}
+//
+//		}
 
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		ChessGame chess = (ChessGame) o;
-		
 	
-		JPanel panel = new JPanel();
+		JPanel panel;
 		for (int i = 0; i<64; i++){
             panel = (JPanel) chessBoard.getComponent(i);
             panel.removeAll();
         }
 		this.revalidate();
-		for (PieceIHM p : chess.getPiecesIHM()) {
+		List<PieceIHM> listPiece = (List<PieceIHM>) arg;
+		for (PieceIHM p : listPiece) {
 			List<Coord> list = p.getList();
 			for (Coord c : list) {
 				JLabel piece = new JLabel(

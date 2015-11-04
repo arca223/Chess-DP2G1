@@ -6,6 +6,8 @@ import com.sun.prism.paint.Color;
 
 import javafx.beans.InvalidationListener;
 import java.util.Observable;
+import java.util.Observer;
+
 import model.Couleur;
 import model.Echiquier;
 import model.Jeu;
@@ -39,7 +41,7 @@ public class ChessGame extends Observable{
 			ret =  false;
 		}
 		this.setChanged();
-		this.notifyObservers();
+		this.notifyObservers(this.echiquier.getPiecesIHM());
 		this.clearChanged();
 		return ret;
 	}
@@ -57,12 +59,12 @@ public class ChessGame extends Observable{
 		return this.echiquier.getColorCurrentPlayer();
 	}	
 	
-	
-	
-	public List<PieceIHM> getPiecesIHM(){
-		return this.echiquier.getPiecesIHM();
-	} 
-
-
+	@Override
+	public void addObserver(Observer o) {
+		super.addObserver(o);
+		this.setChanged();
+		this.notifyObservers(this.echiquier.getPiecesIHM());
+		this.clearChanged();
+	}
 
 }
