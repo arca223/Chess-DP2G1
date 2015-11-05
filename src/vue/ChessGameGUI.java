@@ -21,6 +21,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import controler.controlerLocal.ChessGameControler;
+import controler.controlerLocal.ChessGameMultiControler;
 import model.observable.ChessGame;
 import model.Coord;
 import model.PieceIHM;
@@ -29,7 +30,7 @@ import tools.ChessPieceImage;
 
 public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionListener, Observer {
 
-	ChessGameControler cgc;
+	ChessGameMultiControler cgmc;
 	JLayeredPane layeredPane;
 	JPanel chessBoard;
 	JLabel chessPiece;
@@ -38,10 +39,10 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 	int xMemo;
 	int yMemo;
 
-	public ChessGameGUI() {
+	public ChessGameGUI(ChessGameMultiControler cgmc) {
 		
 		Dimension boardSize = new Dimension(600, 600);
-
+		this.cgmc = cgmc;
 		// Use a Layered Pane for this this application
 		layeredPane = new JLayeredPane();
 		getContentPane().add(layeredPane);
@@ -168,9 +169,8 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 		
 		if (chessPiece == null)
 			return;
-		
 		chessPiece.setVisible(false);
-		this.cgc.move(initCoord, finalCoord);
+		this.cgmc.move(initCoord, finalCoord);
 //		Component c = chessBoard.findComponentAt(e.getX(), e.getY());
 //
 //		if (c instanceof JLabel) {
@@ -182,11 +182,7 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 //			parent.add(chessPiece);
 //		}
 		
-		
-
-			
-		
-		System.out.println(this.cgc.getMessage());
+		System.out.println(this.cgmc.getMessage());
 
 	}
 	

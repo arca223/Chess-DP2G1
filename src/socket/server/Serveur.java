@@ -2,7 +2,7 @@ package socket.server;
 import java.io.*;
 import java.net.*;
 
-public class Serveur implements Runnable{
+public class Serveur{
 	public static ServerSocket ss = null;
 	private BufferedReader in = null;
 	private PrintWriter out = null;
@@ -13,7 +13,7 @@ public class Serveur implements Runnable{
 
 		try {
 			ss = new ServerSocket(2009);
-			System.out.println("Le serveur est à l'écoute "+ss.getLocalPort());
+			System.out.println("Le serveur est ï¿½ l'ï¿½coute "+ss.getLocalPort());
 
 			Socket socket = ss.accept();
 			
@@ -26,7 +26,7 @@ public class Serveur implements Runnable{
 			tOut.start();
 
 		} catch (IOException e) {
-			System.err.println("Le port "+ss.getLocalPort()+" est déjà  utilisé !");
+			System.err.println("Le port "+ss.getLocalPort()+" est dï¿½jï¿½ utilisï¿½ !");
 		}
 
 	}

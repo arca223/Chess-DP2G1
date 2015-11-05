@@ -17,16 +17,18 @@ public class LauncherGUIClient {
 		ChessGameMultiControler chessGameControler;		
 		
 		chessGame = new ChessGame();
-		Client cli = new Client();
-		chessGameControler = new ChessGameMultiControler(chessGame, cli);
+		chessGameControler = new ChessGameMultiControler(chessGame, false);
 		
-		ChessGameGUI gui = new ChessGameGUI();
+		ChessGameGUI gui = new ChessGameGUI(chessGameControler);
 		chessGame.addObserver(gui);
 		JFrame frame = gui;
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.pack();
+		frame.setTitle("Client");
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		Thread t1 = new Thread(chessGameControler);
+		t1.start();
 	}
 }

@@ -17,51 +17,53 @@ public class ChessGameMultiControler implements ChessGameControlers, Runnable{
 	private Serveur server = null;
 	private Client client = null;
 	public static ServerSocket ss = null;
-	private PrintWriter out;
+	private BufferedWriter out;
 	private BufferedReader in;
-	private Scanner sc = null;
-	public boolean isSender;
 	private String  message = null;
+	public static Socket socket;
 	
-	public ChessGameMultiControler(ChessGame chessGame, Serveur srv) {
+	public ChessGameMultiControler(ChessGame chessGame, boolean srv) {
 		this.chessGame = chessGame;
-		this.server = srv;
+		
 		try {
-		ss = new ServerSocket(2009);
-	        System.out.println("Le serveur est à l'écoute "+ss.getLocalPort());
-	
-	        Socket socket = ss.accept();
-	        
+			if (srv) {
+				ss = new ServerSocket(2009);
+		        System.out.println("Le serveur est à l'écoute "+ss.getLocalPort());
+		        
+		        socket = ss.accept();
+			} else {
+				socket = new Socket("127.0.0.1", 2009);
+				System.out.println("Connexion etablie avec le serveur, authentification :"); 
+			}
+			
 	        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-	        out = new PrintWriter(socket.getOutputStream());
+	        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 	
-	        sc = new Scanner(System.in);
 		} catch (IOException e) {
             System.err.println("Le port "+ss.getLocalPort()+" est déjà  utilisé !");
         } 
 	}
 	
-	public ChessGameMultiControler(ChessGame chessGame, Client c) {
-		this.chessGame = chessGame;
-		this.client = c;
-	}
-	
-	public ChessGameMultiControler(ChessGame chessGame) {
-		this.chessGame = chessGame;
-	}
+
+
 
 	@Override
 	public boolean move(Coord initCoord, Coord finalCoord) {
-		// Passage des coordonn�es sous format String
-		// Le s�parateur est :
-		String coord = initCoord.x + ":"+ initCoord.y + ":" + finalCoord.x + ":"+ finalCoord.y;
-		if (server != null) {
-			server.send(coord);
+		
+        String stringCoord = initCoord.x + ":"+ initCoord.y + ":" + finalCoord.x + ":"+ finalCoord.y;
+        System.out.println("stringCoord : " + stringCoord);
+		try {
+			System.out.println("before write");
+			out.write(stringCoord+"\n");
+			out.flush();
+			System.out.println("before chessgame move envoi");
 			return this.chessGame.move(initCoord.x, initCoord.y, finalCoord.x, finalCoord.y);
-		} else {
-			client.send(coord);
-			return this.chessGame.move(initCoord.x, initCoord.y, finalCoord.x, finalCoord.y);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
 		}
+		
 	}
 
 	@Override
@@ -82,23 +84,21 @@ public class ChessGameMultiControler implements ChessGameControlers, Runnable{
 
 	@Override
     public void run() {
+		System.out.println("WESH ON E DAN LE RUNE");
+
         while(true){
-            while(isSender){
-                while(true){
-                    try {
-                        message = in.readLine();
-                        System.out.println("\n"+message);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if(message != null){ isSender = !isSender;}
-                }
-            }
-            while(!isSender){
-                out.println(message);
-                out.flush();
-                if(message != null){ isSender = !isSender;}
-            }
+            try {
+            	System.out.println("THE BIGININGE");
+				message = in.readLine();
+				System.out.println("Message : " + message);
+				String coords[] = message.split(":");
+				System.out.println("coords 0 : " + coords[0]);
+				
+				this.chessGame.move(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2]), Integer.parseInt(coords[3]));
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
 	}
 
