@@ -2,25 +2,33 @@ package socket.server;
 import java.io.*;
 import java.net.*;
 
-public class Serveur {
+public class Serveur implements Runnable{
 	public static ServerSocket ss = null;
-	public static Thread t;
+	private BufferedReader in = null;
+	private PrintWriter out = null;
+	private String login = "zero";
 
 
 	public Serveur() {
 
 		try {
 			ss = new ServerSocket(2009);
-			System.out.println("Le serveur est √† l'√©coute "+ss.getLocalPort());
+			System.out.println("Le serveur est ‡ l'Ècoute "+ss.getLocalPort());
 
-			t = new Thread(new Accepter_connexion(ss));
-			t.start();
+			Socket socket = ss.accept();
+			
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			out = new PrintWriter(socket.getOutputStream());
+
+			Thread tIn = new Thread(new Reception(in,login));
+			tIn.start();
+			Thread tOut = new Thread(new Emission(out));
+			tOut.start();
 
 		} catch (IOException e) {
-			System.err.println("Le port "+ss.getLocalPort()+" est d√©j√† utilis√© !");
+			System.err.println("Le port "+ss.getLocalPort()+" est dÈj‡† utilisÈ !");
 		}
 
 	}
-
 
 }
