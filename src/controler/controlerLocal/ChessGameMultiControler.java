@@ -1,8 +1,9 @@
 package controler.controlerLocal;
 
-import java.net.ServerSocket;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
 import socket.server.*;
 import socket.client.*;
 
@@ -15,10 +16,29 @@ public class ChessGameMultiControler implements ChessGameControlers, Runnable{
 	private ChessGame chessGame;
 	private Serveur server = null;
 	private Client client = null;
+	public static ServerSocket ss = null;
+	private PrintWriter out;
+	private BufferedReader in;
+	private Scanner sc = null;
+	public boolean isSender;
+	private String  message = null;
 	
 	public ChessGameMultiControler(ChessGame chessGame, Serveur srv) {
 		this.chessGame = chessGame;
 		this.server = srv;
+		try {
+		ss = new ServerSocket(2009);
+	        System.out.println("Le serveur est à l'écoute "+ss.getLocalPort());
+	
+	        Socket socket = ss.accept();
+	        
+	        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	        out = new PrintWriter(socket.getOutputStream());
+	
+	        sc = new Scanner(System.in);
+		} catch (IOException e) {
+            System.err.println("Le port "+ss.getLocalPort()+" est déjà  utilisé !");
+        } 
 	}
 	
 	public ChessGameMultiControler(ChessGame chessGame, Client c) {
@@ -57,10 +77,26 @@ public class ChessGameMultiControler implements ChessGameControlers, Runnable{
 	}
 
 	@Override
-	public void run() {
-		
+    public void run() {
+        while(true){
+            while(isSender){
+                while(true){
+                    try {
+                        message = in.readLine();
+                        System.out.println("\n"+message);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if(message != null){ isSender = !isSender;}
+                }
+            }
+            while(!isSender){
+                out.println(message);
+                out.flush();
+                if(message != null){ isSender = !isSender;}
+            }
+        }
 	}
-	
 
 }
 
