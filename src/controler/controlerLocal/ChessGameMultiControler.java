@@ -52,12 +52,16 @@ public class ChessGameMultiControler implements ChessGameControlers, Runnable{
 
 	@Override
 	public boolean move(Coord initCoord, Coord finalCoord) {
+		// Passage des coordonnées sous format String
+		// Le séparateur est :
+		String coord = initCoord.x + ":"+ initCoord.y + ":" + finalCoord.x + ":"+ finalCoord.y;
 		if (server != null) {
-			//server.ss.
+			server.send(coord);
+			return this.chessGame.move(initCoord.x, initCoord.y, finalCoord.x, finalCoord.y);
 		} else {
-			
+			client.send(coord);
+			return this.chessGame.move(initCoord.x, initCoord.y, finalCoord.x, finalCoord.y);
 		}
-		return this.chessGame.move(initCoord.x, initCoord.y, finalCoord.x, finalCoord.y);
 	}
 
 	@Override
