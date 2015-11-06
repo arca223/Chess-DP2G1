@@ -21,6 +21,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import controler.controlerLocal.ChessGameControler;
+import controler.controlerLocal.ChessGameControlers;
 import controler.controlerLocal.ChessGameMultiControler;
 import model.observable.ChessGame;
 import model.Coord;
@@ -30,7 +31,7 @@ import tools.ChessPieceImage;
 
 public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionListener, Observer {
 
-	ChessGameMultiControler cgmc;
+	ChessGameControlers cgc;
 	JLayeredPane layeredPane;
 	JPanel chessBoard;
 	JLabel chessPiece;
@@ -39,10 +40,10 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 	int xMemo;
 	int yMemo;
 
-	public ChessGameGUI(ChessGameMultiControler cgmc) {
+	public ChessGameGUI(ChessGameControlers cgc) {
 		
 		Dimension boardSize = new Dimension(600, 600);
-		this.cgmc = cgmc;
+		this.cgc = cgc;
 		// Use a Layered Pane for this this application
 		layeredPane = new JLayeredPane();
 		getContentPane().add(layeredPane);
@@ -92,7 +93,6 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
             panel = (JPanel) chessBoard.getComponent(i);
             panel.removeAll();
         }
-		this.revalidate();
 		List<PieceIHM> listPiece = (List<PieceIHM>) arg;
 		for (PieceIHM p : listPiece) {
 			List<Coord> list = p.getList();
@@ -104,6 +104,8 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 				panel.add(piece);
 			}
 		}
+		this.chessBoard.revalidate();
+		this.chessBoard.repaint();
 		System.out.println("revalidate:!!");
 	}
 
@@ -170,7 +172,7 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 		if (chessPiece == null)
 			return;
 		chessPiece.setVisible(false);
-		this.cgmc.move(initCoord, finalCoord);
+		this.cgc.move(initCoord, finalCoord);
 //		Component c = chessBoard.findComponentAt(e.getX(), e.getY());
 //
 //		if (c instanceof JLabel) {
@@ -182,7 +184,7 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 //			parent.add(chessPiece);
 //		}
 		
-		System.out.println(this.cgmc.getMessage());
+		System.out.println(this.cgc.getMessage());
 
 	}
 	

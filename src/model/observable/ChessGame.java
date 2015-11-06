@@ -31,6 +31,7 @@ public class ChessGame extends Observable{
 	}
 	
 	public boolean move(int xInit, int yInit, int xFinal, int yFinal){
+		System.out.println("In da move !");
 		boolean ret = false;;
 		if (this.echiquier.isMoveOk(xInit, yInit, xFinal, yFinal)) {
 			ret = this.echiquier.move(xInit, yInit, xFinal, yFinal);

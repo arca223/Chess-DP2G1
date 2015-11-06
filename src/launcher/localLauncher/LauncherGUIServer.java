@@ -1,23 +1,40 @@
 package launcher.localLauncher;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import javax.swing.JFrame;
 
 
 import controler.controlerLocal.*;
 import model.observable.ChessGame;
 import vue.ChessGameGUI;
-import socket.server.*;
-import socket.client.*;
+//import socket.server.*;
+//import socket.client.*;
 
 public class LauncherGUIServer {
+
 	
 	public static void main(String[] args) {		
+		ServerSocket ss = null;
+		Socket socket = null;
+		
 		
 		ChessGame chessGame;
-		ChessGameMultiControler chessGameControler;		
+		ChessGameControlers chessGameControler;		
 		
 		chessGame = new ChessGame();
-		chessGameControler = new ChessGameMultiControler(chessGame, true);
+		
+		try {
+			ss = new ServerSocket(2009);
+	        System.out.println("Le serveur est à l'écoute "+ss.getLocalPort());	        
+	        socket = ss.accept();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		chessGameControler = new ChessGameMultiControler(chessGame, socket);
 		
 		ChessGameGUI gui = new ChessGameGUI(chessGameControler);
 		chessGame.addObserver(gui);
@@ -28,7 +45,6 @@ public class LauncherGUIServer {
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		Thread t1 = new Thread(chessGameControler);
-		t1.start();
+		
 	}
 }

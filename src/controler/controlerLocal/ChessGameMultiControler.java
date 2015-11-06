@@ -11,37 +11,29 @@ import model.*;
 import model.observable.*;
 
 public class ChessGameMultiControler implements ChessGameControlers, Runnable{
-	
+
 
 	private ChessGame chessGame;
-	private Serveur server = null;
-	private Client client = null;
-	public static ServerSocket ss = null;
+//	private Serveur server = null;
+//	private Client client = null;
+//	public static ServerSocket ss = null;
 	private BufferedWriter out;
 	private BufferedReader in;
 	private String  message = null;
-	public static Socket socket;
+//	public static Socket socket;
 	
-	public ChessGameMultiControler(ChessGame chessGame, boolean srv) {
+	public ChessGameMultiControler(ChessGame chessGame, Socket socket) {
 		this.chessGame = chessGame;
 		
-		try {
-			if (srv) {
-				ss = new ServerSocket(2009);
-		        System.out.println("Le serveur est à l'écoute "+ss.getLocalPort());
-		        
-		        socket = ss.accept();
-			} else {
-				socket = new Socket("127.0.0.1", 2009);
-				System.out.println("Connexion etablie avec le serveur, authentification :"); 
-			}
-			
+		try {			
 	        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 	
 		} catch (IOException e) {
-            System.err.println("Le port "+ss.getLocalPort()+" est déjà  utilisé !");
+            System.err.println("Le port "+socket.getLocalPort()+" est déjà  utilisé !");
         } 
+		Thread t1 = new Thread(this);
+		t1.start();
 	}
 	
 
@@ -93,6 +85,9 @@ public class ChessGameMultiControler implements ChessGameControlers, Runnable{
 				System.out.println("Message : " + message);
 				String coords[] = message.split(":");
 				System.out.println("coords 0 : " + coords[0]);
+				System.out.println("coords 1 : " + coords[1]);
+				System.out.println("coords 2 : " + coords[2]);
+				System.out.println("coords 3 : " + coords[3]);
 				
 				this.chessGame.move(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2]), Integer.parseInt(coords[3]));
 				
